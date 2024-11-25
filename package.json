@@ -1,0 +1,40 @@
+{
+  "name": "@nickiv/node-red-offline-alert",
+  "version": "0.0.1",
+  "description": "Get alert in Telegram when your Node-Red is offline",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "node-red": {
+    "nodes": {
+      "offline-alert": "offline-alert.js"
+    },
+    "version": ">=4.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "Nikolay Ivannikov",
+  "license": "MIT",
+  "keywords": [
+    "node-red",
+    "alert",
+    "telegram",
+    "notification"
+  ],
+  "dependencies": {
+    "machina": "^4.0.0"
+  },
+  "main": "offline-alert.js",
+  "directories": {
+    "example": "examples"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickiv/node-red-offline-alert.git"
+  },
+  "bugs": {
+    "url": "https://github.com/nickiv/node-red-offline-alert/issues"
+  },
+  "homepage": "https://github.com/nickiv/node-red-offline-alert#readme"
+}

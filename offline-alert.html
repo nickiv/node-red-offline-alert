@@ -1,0 +1,34 @@
+<script type="text/javascript">
+  RED.nodes.registerType("offline-alert", {
+    category: "network",
+    paletteLabel: "Offline Alert",
+    color: '#F07A4C',
+    icon: "font-awesome/fa-heartbeat",
+    defaults: {
+      name: { value: "" },
+      slot: { value: "", required: true, validate: RED.validators.regex(/^[0-9a-f-]{36}$/) }
+    },
+    //outputs: 1,
+    label: function () {
+      return this.name || "Offline Alert";
+    }
+  });
+</script>
+
+<script type="text/html" data-template-name="offline-alert">
+  <div class="form-row">
+    <div class="form-row">
+      <label for="node-input-slot">Slot ID</label>
+      <input type="text" id="node-input-slot">
+    </div>
+    <div class="form-tips" style="width: auto">Start chat with Telegram bot to get Slot ID: <a target="_blank" href="https://t.me/OfflineAlertBot?start=nr">@OfflineAlertBot</a>.</div>
+  </div>
+  <div class="form-row">
+    <label for="node-input-name">Name</label>
+    <input type="text" type="text" id="node-input-name">
+  </div>
+</script>
+
+<script type="text/html" data-help-name="offline-alert">
+  <p>Add description</p>
+</script>
