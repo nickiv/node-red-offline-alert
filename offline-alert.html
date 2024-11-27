@@ -30,5 +30,9 @@
 </script>
 
 <script type="text/html" data-help-name="offline-alert">
-  <p>Add description</p>
+  <p>This node sends periodic HTTPS requests to the maintainer's server. If the server detects that no requests have been received for a certain period, it sends you a notification via Telegram.</p>
+  <p>To use the node, you need to fill in the Slot ID configuration.</p>
+  <p>To get a Slot ID, follow the link to the Telegram bot. The link is provided in the node's settings.</p>
+  <p>The Slot ID is required for the monitoring server to identify which user should receive a notification in case a disconnection is detected.</p>
+  <p>The monitoring status is displayed in the node's status. If you need to process this status, use the status node.</p>
 </script>
