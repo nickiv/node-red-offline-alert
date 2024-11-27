@@ -16,7 +16,14 @@ module.exports = function (RED) {
                 const options = {
                     timeout: 10000
                 }
-                const req = https.get(this.pingUrl + this.slotId, this.handle.bind(this, 'http_success'));
+                let url = this.pingUrl;
+                if (url.endsWith("/")) {
+                    url += this.slotId;
+                } else {
+                    url += "/" + this.slotId;
+                }
+                this.debug("Firing ping request", url);
+                const req = https.get(url, this.handle.bind(this, 'http_success'));
                 req.on('error', this.handle.bind(this, 'http_error'));
                 req.on('timeout', function () {
                     req.destroy();
@@ -26,11 +33,20 @@ module.exports = function (RED) {
             },
             initialize: function () {
                 if (this.node._flow.getSetting("OAB_URL")) {
-                    this.pingUrl = this.node._flow.getSetting("OAB_URL");
-                    this.debug("Override url", this.pingUrl);
+                    this.updatePingUrl(this.node._flow.getSetting("OAB_URL"));
                 }
                 if (!this.node._flow.getSetting("OAB_DEBUG")) {
                     this.debug = function () { }
+                }
+            },
+            updatePingUrl: function(url){
+                try {
+                    const parsedUrl = new URL(url);
+                    if (parsedUrl.protocol === 'https:'){
+                        this.pingUrl = url;
+                    }
+                } catch (e) {
+                    this.warn("Invalid url", url);
                 }
             },
             states: {
@@ -44,6 +60,9 @@ module.exports = function (RED) {
                         this.node.status({ fill: "yellow", shape: "ring", text: "pinging" });
                     },
                     http_success: function (res) {
+                        if (res.headers['x-seturl']) {
+                            this.updatePingUrl(res.headers['x-seturl']);
+                        }
                         if (res.statusCode == 200) {
                             this.node.status({ fill: "green", shape: "dot", text: "ok" });
                             this.retryCounter = 0;
