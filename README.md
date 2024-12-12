@@ -1,5 +1,11 @@
 # Node-RED Offline Alert Module
 
+Using Node-RED for remote location monitoring? Great idea—but who’s watching the watcher?
+
+Ensure basic health monitoring of your Node-RED instance with this module.
+
+A dedicated Telegram bot will notify you immediately in case of power outages or internet disruptions, keeping you informed even when the unexpected happens.
+
 ![image of example flow](./examples/flow-screenshot.png) ![image of Telegram chat with notification](./examples/alert-chat.png)
 
 ## Overview
