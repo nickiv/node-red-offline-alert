@@ -1,6 +1,6 @@
 {
   "name": "@nickiv/node-red-offline-alert",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Get alert in Telegram when your Node-RED is offline",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

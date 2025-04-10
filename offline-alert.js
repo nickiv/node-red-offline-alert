@@ -1,6 +1,8 @@
 const TimeMachina = require("./src/time_machina");
 const https = require("https");
 
+let alertId = 1;
+
 module.exports = function (RED) {
     function offlineAlertNode(n) {
         RED.nodes.createNode(this, n);
@@ -11,11 +13,8 @@ module.exports = function (RED) {
             slotId: self.slotId,
             pingUrl: "https://d5d6qu0cfbfq01gqpuej.apigw.yandexcloud.net/qping/",
             retryCounter: 0,
-            namespace: "OfflineAlert",
+            namespace: "OfflineAlert#" + alertId++,
             _doPing: function () {
-                const options = {
-                    timeout: 10000
-                }
                 let url = this.pingUrl;
                 if (url.endsWith("/")) {
                     url += this.slotId;
@@ -28,6 +27,7 @@ module.exports = function (RED) {
                 req.on('timeout', function () {
                     req.destroy();
                 });
+                req.setTimeout(10000);
                 req.end();
                 this.transition('PINGING');
             },
@@ -71,7 +71,7 @@ module.exports = function (RED) {
                             return;
                         }
                         this.debug(res.statusCode, res.headers);
-                        if (res.statusCode > 500) {
+                        if (res.statusCode >= 500) {
                             this.node.status({ fill: "red", shape: "ring", text: res.statusCode });
                             this._scheduleEvent('ping', 20 * 1000);
                             this.transition('PAUSE');
