@@ -46,6 +46,10 @@ module.exports = machina.Fsm.extend({
     constructor : function(){
         this._scheduled_events = {};
         machina.Fsm.apply(this, arguments);
+        this.on("*", function (eventName, data){
+            delete data.namespace;
+            this.debug(eventName, data);// this works fine in machina.js, no need to bind
+        });
     }
 });
 
@@ -68,17 +72,3 @@ function ts(){
         ("0" + minutes).slice(-2) + ':' + 
         ("0" + seconds).slice(-2);
 }
-
-machina.on('newfsm', function(sm){
-    sm.on('handling', function (params) {
-        this.debug('handling ' + params.inputType + ' in state ' + this.state);
-    });
-
-    sm.on('nohandler', function (params) {
-        this.debug('unhandled ' + params.inputType + ' in state ' + this.state);
-    });
-
-    sm.on('transition', function (params) {
-        this.debug(['transition from:', params.fromState, 'to:', params.toState, 'action:', params.action].join(' '));
-    });
-});
